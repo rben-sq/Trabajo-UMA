@@ -1,0 +1,39 @@
+# docker-compose.yaml
+version: '3.8'
+#╔═══════════════════════════════════════╗
+#║  Iniciar y Construir Contenedores:    ║
+#║  docker-compose up -d --build         ║
+#╠═══════════════════════════════════════╣
+#║  Detener Contenedores:                ║
+#║  docker-compose down                  ║
+#╚═══════════════════════════════════════╝
+# Define los servicios (contenedores) que componen la aplicación.
+services:
+  # Servicio para el servidor web Nginx.
+  apache:
+    # Configuración para construir la imagen de Nginx a partir de un Dockerfile.
+    container_name: apache_python
+    image: ubuntu/apache2
+    ports:
+      - "80:80"  # Mapea el puerto 80 del host al puerto 80 del contenedor Nginx.
+    networks:
+      - red_www  # Conecta el contenedor Nginx a la red 'red_www'.
+    working_dir: /var/www/html # Establece /var/www/html como directorio "de trabajo".
+    volumes:
+      - ./apisPy:/var/www/html  # Monta el directorio 'www' del host en '/var/www/html' dentro del contenedor.
+
+  # Servicio para PHP-FPM (FastCGI Process Manager).
+  python:
+    container_name: python_api
+    build:
+      context: ./imagenes-docker  # El directorio actual (.) es el contexto de construcción.
+      dockerfile: api_python.dockerfile  # Usa el archivo llamado 'Dockerfile' en el contexto.
+    networks:
+      - red_www  # Conecta el contenedor PHP-FPM a la red 'red_www'.
+    working_dir: /app # Establece /var/www/html como directorio "de trabajo".
+    volumes:
+      - ./Python/apisPy:/app  # Monta el mismo directorio 'www' que Nginx, con optimización de cache.
+
+# Define las redes que se utilizarán.
+networks:
+  red_www:  # Define una red llamada 'red_www' para la comunicación entre los contenedores.

@@ -1,0 +1,40 @@
+services:
+  php:
+    build:
+      context: ./php
+      dockerfile: Dockerfile
+    ports:
+      - "8000:80"
+    volumes:
+      - ./php:/var/www/html
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: productos
+  python:
+    build:
+      context: ./python
+      dockerfile: Dockerfile
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./python:/app
+    depends_on:
+      - mysql
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: productos
+  mysql:
+    image: mysql:8
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: productos
+    volumes:
+      - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql

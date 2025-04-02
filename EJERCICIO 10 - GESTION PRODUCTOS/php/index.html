@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Productos API</title>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            width: 80%; /* Ajusta el ancho según tus necesidades */
+        }
+        .section {
+            width: 50%;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h2 { color: #336699; }
+        form { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; }
+        input[type="text"], input[type="number"] { width: 200px; padding: 5px; margin-bottom: 10px; }
+        button { background-color: #4CAF50; color: white; padding: 10px 15px; border: none; cursor: pointer; }
+        button:hover { background-color: #3e8e41; }
+        #addProductResultPHP, #getProductResultPHP, #addProductResultPython, #getProductResultPython {
+            border: 1px solid #ddd; padding: 10px; margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="section">
+            <h2>Añadir Producto (PHP)</h2>
+            <form id="addProductFormPHP">
+                <label for="namePHP">Nombre:</label><br>
+                <input type="text" id="namePHP" name="name"><br>
+                <label for="descriptionPHP">Descripción:</label><br>
+                <input type="text" id="descriptionPHP" name="description"><br>
+                <label for="pricePHP">Precio:</label><br>
+                <input type="number" id="pricePHP" name="price"><br><br>
+                <button type="button" onclick="addProductPHP()">Añadir Producto (PHP)</button>
+            </form>
+            <div id="addProductResultPHP"></div>
+
+            <h2>Consultar Producto (PHP)</h2>
+            <form id="getProductFormPHP">
+                <label for="productIdPHP">ID del Producto:</label><br>
+                <input type="number" id="productIdPHP" name="productId"><br><br>
+                <button type="button" onclick="getProductPHP()">Consultar Producto (PHP)</button>
+            </form>
+            <div id="getProductResultPHP"></div>
+        </div>
+
+        <div class="section">
+            <h2>Añadir Producto (Python)</h2>
+            <form id="addProductFormPython">
+                <label for="namePython">Nombre:</label><br>
+                <input type="text" id="namePython" name="name"><br>
+                <label for="descriptionPython">Descripción:</label><br>
+                <input type="text" id="descriptionPython" name="description"><br>
+                <label for="pricePython">Precio:</label><br>
+                <input type="number" id="pricePython" name="price"><br><br>
+                <button type="button" onclick="addProductPython()">Añadir Producto (Python)</button>
+            </form>
+            <div id="addProductResultPython"></div>
+
+            <h2>Consultar Producto (Python)</h2>
+            <form id="getProductFormPython">
+                <label for="productIdPython">ID del Producto:</label><br>
+                <input type="number" id="productIdPython" name="productId"><br><br>
+                <button type="button" onclick="getProductPython()">Consultar Producto (Python)</button>
+            </form>
+            <div id="getProductResultPython"></div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="section">
+            <h2>Eliminar Producto (PHP)</h2>
+            <form id="deleteProductFormPHP">
+                <label for="deleteProductIdPHP">ID del Producto:</label><br>
+                <input type="number" id="deleteProductIdPHP" name="deleteProductId"><br><br>
+                <button type="button" onclick="deleteProductPHP()">Eliminar Producto (PHP)</button>
+            </form>
+            <div id="deleteProductResultPHP"></div>
+        </div>
+
+        <div class="section">
+            <h2>Eliminar Producto (Python)</h2>
+            <form id="deleteProductFormPython">
+                <label for="deleteProductIdPython">ID del Producto:</label><br>
+                <input type="number" id="deleteProductIdPython" name="deleteProductId"><br><br>
+                <button type="button" onclick="deleteProductPython()">Eliminar Producto (Python)</button>
+            </form>
+            <div id="deleteProductResultPython"></div>
+        </div>
+    </div>
+    <script>
+        // Funciones JavaScript para interactuar con las APIs PHP y Python
+        function addProductPHP() {
+            const form = document.getElementById('addProductFormPHP');
+            const resultDiv = document.getElementById('addProductResultPHP');
+            const productData = {
+                name: form.name.value,
+                description: form.description.value,
+                price: parseFloat(form.price.value)
+            };
+            fetch('http://localhost:8000/?action=addProduct', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(productData)
+            })
+            .then(response => response.json())
+            .then(data => resultDiv.innerHTML = JSON.stringify(data))
+            .catch(error => resultDiv.innerHTML = 'Error: ' + error);
+        }
+        function getProductPHP() {
+            const productId = document.getElementById('productIdPHP').value;
+            const resultDiv = document.getElementById('getProductResultPHP');
+            fetch(`http://localhost:8000/?id=${productId}`, { method: 'GET' })
+            .then(response => response.json())
+            .then(data => resultDiv.innerHTML = JSON.stringify(data))
+            .catch(error => resultDiv.innerHTML = 'Error: ' + error);
+        }
+        function addProductPython() {
+            const form = document.getElementById('addProductFormPython');
+            const resultDiv = document.getElementById('addProductResultPython');
+            const productData = {
+                name: form.name.value,
+                description: form.description.value,
+                price: parseFloat(form.price.value)
+            };
+            fetch('http://localhost:5000/products', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(productData)
+            })
+            .then(response => response.json())
+            .then(data => resultDiv.innerHTML = JSON.stringify(data))
+            .catch(error => resultDiv.innerHTML = 'Error: ' + error);
+        }
+        function getProductPython() {
+            const productId = document.getElementById('productIdPython').value;
+            const resultDiv = document.getElementById('getProductResultPython');
+            fetch(`http://localhost:5000/products/${productId}`, { method: 'GET' })
+            .then(response => response.json())
+            .then(data => resultDiv.innerHTML = JSON.stringify(data))
+            .catch(error => resultDiv.innerHTML = 'Error: ' + error);
+        }
+
+        function deleteProductPHP() {
+            const productId = document.getElementById('deleteProductIdPHP').value;
+            const resultDiv = document.getElementById('deleteProductResultPHP');
+            fetch(`http://localhost:8000/?id=${productId}`, { method: 'DELETE' })
+            .then(response => response.json())
+            .then(data => resultDiv.innerHTML = JSON.stringify(data))
+            .catch(error => resultDiv.innerHTML = 'Error: ' + error);
+        }
+
+        function deleteProductPython() {
+            const productId = document.getElementById('deleteProductIdPython').value;
+            const resultDiv = document.getElementById('deleteProductResultPython');
+            fetch(`http://localhost:5000/products/${productId}`, { method: 'DELETE' })
+            .then(response => response.json())
+            .then(data => resultDiv.innerHTML = JSON.stringify(data))
+            .catch(error => resultDiv.innerHTML = 'Error: ' + error);
+        }
+    </script>
+</body>
+</html>
