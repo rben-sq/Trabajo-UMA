@@ -1,3 +1,3 @@
-[submodule "htdocs"]
-	path = htdocs
+[submodule "htdocs_sub"]
+	path = htdocs_sub
 	url = https://github.com/rben-sq/htdocs.git
