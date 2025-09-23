@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+  nlp_api:
+    build: .
+    ports:
+      - "5013:5013"
+    volumes:
+      - .:/app
+    restart: unless-stopped

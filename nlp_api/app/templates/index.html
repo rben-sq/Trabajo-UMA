@@ -1,0 +1,83 @@
+<html>
+<head>
+    <title>Procesamiento de Lenguaje Natural</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #e0f7fa,rgb(57, 68, 220)); 
+            padding: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 700px;
+            background: #fff;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            font-weight: 500;
+        }
+
+        textarea {
+            width: calc(100% - 20px);
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 18px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: border-color 0.3s ease;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+        }
+
+        button {
+            padding: 12px 20px;
+            margin: 10px;
+            font-size: 18px;
+            border-radius: 8px;
+            border: none;
+            background: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        button:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Procesamiento de Lenguaje Natural</h1>
+        <form method="POST">
+            <textarea name="text" rows="6" placeholder="Introduce tu texto aquí..."></textarea><br>
+            <button name="action" value="tokenize">Tokenizar</button>
+            <button name="action" value="pos">POS Tagging</button>
+        </form>
+    </div>
+</body>
+</html>
